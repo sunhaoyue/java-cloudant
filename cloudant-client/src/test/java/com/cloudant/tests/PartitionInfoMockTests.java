@@ -99,4 +99,60 @@ public class PartitionInfoMockTests extends TestWithMockedServer {
         assertEquals(5678, db.partitionInfo(partitionKey).getSizes().getExternal());
     }
 
+    @Test
+    public void getDbPartitionPartitionedIndexesCount() {
+        String partitionKey = "myPartitionKey";
+        CloudantClient c = CloudantClientHelper.newMockWebServerClientBuilder(server).build();
+        Database db = c.database("animaldb", false);
+
+        MockResponse response = new MockResponse()
+                .setResponseCode(200)
+                .setBody("{\"partitioned_indexes\":{\"count\":9}}");
+        server.enqueue(response);
+
+        assertEquals(9, db.partitionInfo(partitionKey).getPartitionedIndexes().getCount());
+    }
+
+    @Test
+    public void getDbPartitionPartitionedIndexesLimit() {
+        String partitionKey = "myPartitionKey";
+        CloudantClient c = CloudantClientHelper.newMockWebServerClientBuilder(server).build();
+        Database db = c.database("animaldb", false);
+
+        MockResponse response = new MockResponse()
+                .setResponseCode(200)
+                .setBody("{\"partitioned_indexes\":{\"limit\":10}}");
+        server.enqueue(response);
+
+        assertEquals(10, db.partitionInfo(partitionKey).getPartitionedIndexes().getLimit());
+    }
+
+    @Test
+    public void getDbPartitionPartitionedIndexesIndexesSearch() {
+        String partitionKey = "myPartitionKey";
+        CloudantClient c = CloudantClientHelper.newMockWebServerClientBuilder(server).build();
+        Database db = c.database("animaldb", false);
+
+        MockResponse response = new MockResponse()
+                .setResponseCode(200)
+                .setBody("{\"partitioned_indexes\":{\"indexes\":{\"search\":3}}}");
+        server.enqueue(response);
+
+        assertEquals(3, db.partitionInfo(partitionKey).getPartitionedIndexes().getIndexes().getSearch());
+    }
+
+    @Test
+    public void getDbPartitionPartitionedIndexesIndexesView() {
+        String partitionKey = "myPartitionKey";
+        CloudantClient c = CloudantClientHelper.newMockWebServerClientBuilder(server).build();
+        Database db = c.database("animaldb", false);
+
+        MockResponse response = new MockResponse()
+                .setResponseCode(200)
+                .setBody("{\"partitioned_indexes\":{\"indexes\":{\"view\":6}}}");
+        server.enqueue(response);
+
+        assertEquals(6, db.partitionInfo(partitionKey).getPartitionedIndexes().getIndexes().getView());
+    }
+
 }

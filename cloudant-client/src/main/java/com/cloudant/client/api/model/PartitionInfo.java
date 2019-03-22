@@ -21,6 +21,70 @@ import com.google.gson.annotations.SerializedName;
  */
 public class PartitionInfo {
 
+    public static class Indexes {
+
+        private long search;
+        private long view;
+
+
+        /**
+         * Get a count of the partitioned search indexes.
+         *
+         * @return The partitioned search index count.
+         */
+        public long getSearch() {
+            return search;
+        }
+
+
+        /**
+         * Get a count of the partitioned view indexes.
+         *
+         * @return The partitioned view index count.
+         */
+        public long getView() {
+            return view;
+        }
+
+    }
+
+    public static class PartitionedIndexes {
+
+        private long count;
+        private long limit;
+        private Indexes indexes;
+
+        /**
+         * Get a total count of the partitioned indexes.
+         *
+         * @return The total partitioned index count.
+         */
+        public long getCount() {
+            return count;
+        }
+
+        /**
+         * Get the partitioned index limit.
+         *
+         * @return The partitioned index limit.
+         */
+        public long getLimit() {
+            return limit;
+        }
+
+        /**
+         * Get the {@link com.cloudant.client.api.model.PartitionInfo.Indexes} object for this
+         * database partition.
+         *
+         * @return The {@link com.cloudant.client.api.model.PartitionInfo.Indexes} object,
+         * containing the count breakdown of partitioned indexes.
+         */
+        public Indexes getIndexes() {
+            return indexes;
+        }
+
+    }
+
     public static class Sizes {
 
         private long active;
@@ -51,6 +115,8 @@ public class PartitionInfo {
     @SerializedName("doc_del_count")
     private long docDelCount;
     private String partition;
+    @SerializedName("partitioned_indexes")
+    private PartitionedIndexes partitionedIndexes;
     private Sizes sizes;
 
     /**
@@ -78,6 +144,17 @@ public class PartitionInfo {
      */
     public String getPartition() {
         return partition;
+    }
+
+    /**
+     * Get the {@link com.cloudant.client.api.model.PartitionInfo.PartitionedIndexes} object for
+     * this database partition.
+     *
+     * @return The {@link com.cloudant.client.api.model.PartitionInfo.PartitionedIndexes} object,
+     * containing metadata about partitioned indexes in this database partition.
+     */
+    public PartitionedIndexes getPartitionedIndexes() {
+        return partitionedIndexes;
     }
 
     /**
